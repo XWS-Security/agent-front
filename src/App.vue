@@ -1,18 +1,47 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <NavBar>
+      <NavGroup side='mr-auto'>
+        <RegistrationLink></RegistrationLink>
+        <LoginLink></LoginLink>
+        <LogOutLink></LogOutLink>
+      </NavGroup>
+    </NavBar>
+    <h3>{{ user }}</h3>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import NavGroup from "@/components/NavBar/NavGroup";
+import NavBar from './components/NavBar/NavBar.vue'
+import RegistrationLink from "@/components/NavBar/RegistrationLink";
+import LoginLink from "@/components/NavBar/LoginLink";
+import LogOutLink from "@/components/NavBar/LogOutLink";
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    LogOutLink,
+    LoginLink,
+    RegistrationLink, NavBar, NavGroup
+  },
+  created() {
+    this.$store.dispatch('startSession', null);
+    this.$http.defaults.headers.common['Authorization'] = this.$store.getters.tokenString;
+  },
+  watch: {
+    $route() {
+      this.$http.defaults.headers.common['Authorization'] = this.$store.getters.tokenString;
+    }
+  },
+  computed: {
+    user() {
+      let user = this.$store.state.userType;
+      return user;
+    },
   }
+  ,
 }
 </script>
 
@@ -23,6 +52,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
