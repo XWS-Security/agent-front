@@ -2,28 +2,20 @@
   <div>
     <b-jumbotron>
       <div class="form-group">
-        <label for="usernameInput">Username</label>
-        <input type="text" class="form-control" id="usernameInput" placeholder="Enter username" v-model="username">
+        <label for="usernameInput">Email</label>
+        <input type="text" class="form-control" id="usernameInput" placeholder="Enter email" v-model="email">
       </div>
       <div class="form-group">
         <label for="passwordInput">Password</label>
         <input type="password" class="form-control" id="passwordInput" placeholder="Password" v-model="password">
       </div>
-      <div class="form-group">
-        <label for="twoFactorAuthSecret">Auth code</label>
-        <input type="text" class="form-control" id="twoFactorAuthSecret" placeholder="TwoFactorAuthSecret"
-               v-model="secret">
-      </div>
-      <div class="form-group" v-if="!AreInputsValid || !IsUsernameValid">
+      <div class="form-group" v-if="!AreInputsValid || !IsEmailValid">
         <p>{{ errorMessage }}</p>
       </div>
       <div class="form-group">
         <a class="btn-link" v-on:click="onResetPassword()">Forgot password?</a>
       </div>
       <button type="submit" class="btn btn-primary btn-block" id="loginButton" v-on:click="onSubmit()">Login</button>
-      <button type="submit" class="btn btn-primary btn-block" v-on:click="getTwoFactorAuthSecret">Get Authentication
-        Code
-      </button>
     </b-jumbotron>
   </div>
 </template>
@@ -33,7 +25,7 @@ export default {
   name: "Login",
   data: function () {
     return {
-      username: null,
+      email: null,
       password: null,
       secret: null,
       errorMessage: ''
@@ -41,37 +33,9 @@ export default {
   },
 
   mounted() {
-    const loginButton = document.getElementById("loginButton");
-    const twoFactorAuthSecret = document.getElementById("twoFactorAuthSecret");
-    loginButton.style.display = "none";
-    twoFactorAuthSecret.style.display = "none";
   },
 
   methods: {
-
-    getTwoFactorAuthSecret() {
-      if (!this.AreInputsValid) {
-        this.errorMessage = 'All fields must be filled!';
-        return;
-      }
-      this.errorMessage = '';
-
-      let user = {username: this.username, password: this.password}
-      this.$http
-          .post(process.env.VUE_APP_BACKEND_URL + 'login/twoFactorAuth', user)
-          .then(response => {
-            response.data
-            const loginButton = document.getElementById("loginButton");
-            const twoFactorAuthSecret = document.getElementById("twoFactorAuthSecret");
-            loginButton.style.display = "block";
-            twoFactorAuthSecret.style.display = "block";
-            alert("Code was sent to email!")
-          }).catch(err => {
-        console.log(err)
-        alert("Something went wrong!")
-      });
-    },
-
     onSubmit() {
       if (!this.AreInputsValid) {
         this.errorMessage = 'All fields must be filled!';
@@ -80,7 +44,7 @@ export default {
       let store = this.$store;
       this.errorMessage = '';
 
-      let user = {username: this.username, password: this.password, twoFactorAuthenticationSecret: this.secret}
+      let user = {email: this.email, password: this.password}
       this.$http
           .post(process.env.VUE_APP_BACKEND_URL + 'login/', user)
           .then(response => {
@@ -88,7 +52,7 @@ export default {
             this.dispatch(response.data.userType);
           }).catch(err => {
         console.log(err)
-        alert("Login failed! If you entered secret more than 3 times please generate it again.")
+        alert("Login failed!")
       });
     },
 
@@ -103,20 +67,20 @@ export default {
       }
     },
     onResetPassword() {
-      if (!this.IsUsernameValid) {
-        this.errorMessage = 'Username cannot be empty!';
+      if (!this.IsEmailValid) {
+        this.errorMessage = 'Email cannot be empty!';
         return;
       }
       this.errorMessage = '';
-      this.$router.push('passwordReset/' + this.username)
+      this.$router.push('passwordReset/' + this.email)
     }
   },
   computed: {
     AreInputsValid() {
-      return this.username !== null && this.password !== null && this.username !== '' && this.password !== '';
+      return this.email !== null && this.password !== null && this.email !== '' && this.password !== '';
     },
-    IsUsernameValid() {
-      return this.username !== null && this.username !== '';
+    IsEmailValid() {
+      return this.email !== null && this.email !== '';
     }
   }
 }

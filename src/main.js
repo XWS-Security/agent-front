@@ -9,6 +9,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Registration from "@/components/User/Registration/Registration";
 import Login from "@/components/User/Login/Login";
+import ActivationSucceeded from "@/components/User/Registration/ActivationSucceeded";
+import ActivationFailed from "@/components/User/Registration/ActivationFailed";
+import Activation from "@/components/User/Registration/Activation";
 
 Vue.config.productionTip = false
 
@@ -17,7 +20,10 @@ Vue.use(VueRouter);
 Vue.prototype.$http = axios;
 
 const routes = [{path: '/userRegistration', component: Registration},
-    {path: '/login', component: Login},];
+    {path: '/login', component: Login},
+    {path: '/activation/success', component: ActivationSucceeded},
+    {path: '/activation/failed', component: ActivationFailed},
+    {path: '/activation', component: Activation},];
 
 const router = new VueRouter({
     routes,
