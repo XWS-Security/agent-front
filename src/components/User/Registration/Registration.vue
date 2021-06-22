@@ -38,27 +38,6 @@
         <label for="female">Female</label>
         <br>
       </div>
-      <div class="form-group">
-        <label for="phoneNumberInput">Phone number</label>
-        <input type="text" class="form-control" id="phoneNumberInput" placeholder="Enter phone number"
-               v-model="phoneNumber">
-      </div>
-      <div class="form-group">
-        <label for="dateOfBirth">Date of birth</label>
-        <input type="date" v-model="dateOfBirth" class="form-control" id="DateOfBirth">
-      </div>
-      <div class="form-group">
-        <label for="about">About</label>
-        <textarea type="text" v-model="about" class="form-control" id="About"/>
-      </div>
-      <div>
-        <input type="radio" id="private" value="true" v-model="profilePrivate">
-        <label for="private">Private</label>
-        <br>
-        <input type="radio" id="public" value="false" v-model="profilePrivate">
-        <label for="public">Public</label>
-        <br>
-      </div>
       <button type="submit" class="btn btn-primary btn-block" v-on:click="onSubmit()">Submit</button>
     </b-jumbotron>
   </div>
@@ -76,11 +55,7 @@ export default {
       name: null,
       surname: null,
       username: null,
-      gender: "Male",
-      dateOfBirth: new Date(),
-      phoneNumber: null,
-      about: null,
-      profilePrivate: true
+      gender: "Male"
     }
   },
   methods: {
@@ -109,13 +84,9 @@ export default {
         password: this.password,
         repeatedPassword: this.passwordVerification,
         name: this.name,
-        surname: this.surname,
-        dateOfBirth: this.dateOfBirth,
-        phoneNumber: this.phoneNumber,
-        about: this.about,
-        gender: this.gender,
-        profilePrivate: this.profilePrivate
+        surname: this.surname
       }
+
       this.$http
           .post(process.env.VUE_APP_BACKEND_URL + 'register/', user)
           .then(response => {
@@ -129,7 +100,7 @@ export default {
   computed: {
     AreInputsValid() {
       return this.email !== '' && this.password !== '' && this.name !== '' && this.surname !== '' && this.passwordVerification !== '' && this.password === this.passwordVerification
-          && this.username !== '' && this.dateOfBirth !== null && this.gender !== '';
+          && this.username !== '' && this.gender !== '';
     },
     IsPasswordSafe() {
       if (this.password === null) return false;

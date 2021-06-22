@@ -2,9 +2,9 @@
   <div id="app">
     <NavBar>
       <NavGroup side='mr-auto'>
-        <RegistrationLink></RegistrationLink>
-        <LoginLink></LoginLink>
-        <LogOutLink></LogOutLink>
+        <RegistrationLink v-if="user == null"></RegistrationLink>
+        <LoginLink v-if="user == null"></LoginLink>
+        <LogOutLink v-if="user !== null"></LogOutLink>
       </NavGroup>
     </NavBar>
     <h3>{{ user }}</h3>
