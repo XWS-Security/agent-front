@@ -5,6 +5,8 @@
         <RegistrationLink v-if="user == null"></RegistrationLink>
         <LoginLink v-if="user == null"></LoginLink>
         <LogOutLink v-if="user !== null"></LogOutLink>
+        <CreateProductLink v-if="user == 'Agent'"></CreateProductLink>
+        <AllProductsLink v-if="user == 'Agent'"></AllProductsLink>
       </NavGroup>
     </NavBar>
     <h3>{{ user }}</h3>
@@ -19,9 +21,14 @@ import NavBar from './components/NavBar/NavBar.vue'
 import RegistrationLink from "@/components/NavBar/RegistrationLink";
 import LoginLink from "@/components/NavBar/LoginLink";
 import LogOutLink from "@/components/NavBar/LogOutLink";
+import CreateProductLink from "@/components/NavBar/CreateProductLink";
+import AllProductsLink from "@/components/NavBar/AllProductsLink";
+
 export default {
   name: 'App',
   components: {
+    AllProductsLink,
+    CreateProductLink,
     LogOutLink,
     LoginLink,
     RegistrationLink, NavBar, NavGroup
