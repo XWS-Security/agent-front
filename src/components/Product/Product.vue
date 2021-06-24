@@ -82,6 +82,10 @@
                 <div class="col-sm-9 text-secondary">
                   <input type="button" class="btn btn-primary px-4" value="Update info" v-on:click="updateProductInfo">
                 </div>
+                <hr>
+                <div class="col-sm-9 text-secondary">
+                  <input type="button" class="btn btn-primary px-4" value="Delete" v-on:click="this.delete">
+                </div>
               </div>
             </div>
           </div>
@@ -208,6 +212,15 @@ export default {
 
       // save it
       this.save(formData);
+    },
+
+    delete() {
+      this.$http
+          .delete(process.env.VUE_APP_BACKEND_URL + 'product/delete/' + this.id)
+          .then(response => {
+            alert(response.data);
+            this.$router.push('/')
+          })
     }
 
   },
