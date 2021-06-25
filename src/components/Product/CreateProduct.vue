@@ -2,54 +2,61 @@
   <div>
     <h2>Create product</h2>
     <hr>
-    <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
-      <div class="dropbox">
-        <input type="file" multiple :name="uploadFieldName" :disabled="isSaving"
-               @change="upload($event.target.name, $event.target.files); fileCount = $event.target.files.length"
-               accept="image/*" class="input-file">
-        <p v-if="isSaving">
-          Uploading {{ fileCount }} files...
-        </p>
+    <div class="row">
+      <div class="col">
+        <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+          <div class="dropbox">
+            <input type="file" multiple :name="uploadFieldName" :disabled="isSaving"
+                   @change="upload($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+                   accept="image/*" class="input-file">
+            <p v-if="isSaving">
+              Uploading {{ fileCount }} files...
+            </p>
+          </div>
+        </form>
+        <hr>
+        <div class="form-group m-5">
+          <label for="nameInput">Product Name</label>
+          <input type="text" class="form-control" id="nameInput" placeholder="Enter product name" v-model="name">
+        </div>
+
+        <div class="form-group m-5">
+          <label for="priceInput">Price</label>
+          <input type="text" class="form-control" id="priceInput" placeholder="Enter price" v-model="price">
+        </div>
+
+        <div class="form-group m-5">
+          <label for="quantityInput">Quantity</label>
+          <input type="text" class="form-control" id="quantityInput" placeholder="Enter quantity"
+                 v-model="quantity">
+        </div>
+
+        <hr>
+        <b-button @click="createProduct">Send</b-button>
       </div>
+      <div class="col">
+        <!--SUCCESS-->
+        <div v-if="isSuccess">
+          <h2>Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
+          <p>
+            <a href="javascript:void(0)" @click="reset()">Upload again</a>
+          </p>
+          <ul class="list-unstyled">
+            <li v-for="(item, index) in uploadedFiles" v-bind:key="index">
+              <img :src="item.url" class="img-responsive img-thumbnail" :alt="item.originalName">
+            </li>
+          </ul>
+        </div>
 
-      <div class="form-group">
-        <label for="nameInput">Product Name</label>
-        <input type="text" class="form-control" id="nameInput" placeholder="Enter product name" v-model="name">
+        <!--FAILED-->
+        <div v-if="isFailed">
+          <h2>Uploaded failed.</h2>
+          <p>
+            <a href="javascript:void(0)" @click="reset()">Try again</a>
+          </p>
+          <pre>{{ uploadError }}</pre>
+        </div>
       </div>
-
-      <div class="form-group">
-        <label for="priceInput">Price</label>
-        <input type="text" class="form-control" id="priceInput" placeholder="Enter price" v-model="price">
-      </div>
-    </form>
-
-    <div class="form-group">
-      <label for="quantityInput">Quantity</label>
-      <input type="text" class="form-control" id="quantityInput" placeholder="Enter quantity" v-model="quantity">
-    </div>
-    <hr>
-    <b-button @click="createProduct">Send</b-button>
-
-    <!--SUCCESS-->
-    <div v-if="isSuccess">
-      <h2>Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
-      <p>
-        <a href="javascript:void(0)" @click="reset()">Upload again</a>
-      </p>
-      <ul class="list-unstyled">
-        <li v-for="(item, index) in uploadedFiles" v-bind:key="index">
-          <img :src="item.url" class="img-responsive img-thumbnail" :alt="item.originalName">
-        </li>
-      </ul>
-    </div>
-
-    <!--FAILED-->
-    <div v-if="isFailed">
-      <h2>Uploaded failed.</h2>
-      <p>
-        <a href="javascript:void(0)" @click="reset()">Try again</a>
-      </p>
-      <pre>{{ uploadError }}</pre>
     </div>
 
   </div>
