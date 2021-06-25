@@ -25,66 +25,75 @@
                 </div>
               </form>
               <hr>
-              <b-button @click="uploadContent()">Upload photo!</b-button>
+
+              <!--SUCCESS-->
+              <div v-if="isSuccess">
+                <h2>Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
+                <p>
+                  <a href="javascript:void(0)" @click="reset()">Upload again</a>
+                </p>
+                <ul class="list-unstyled">
+                  <li v-for="item in uploadedFiles" v-bind:key="item">
+                    <img :src="item.url" class="img-responsive img-thumbnail" :alt="item.originalName">
+                  </li>
+                </ul>
+              </div>
+
+              <!--FAILED-->
+              <div v-if="isFailed">
+                <h2>Uploaded failed.</h2>
+                <p>
+                  <a href="javascript:void(0)" @click="reset()">Try again</a>
+                </p>
+                <pre>{{ uploadError }}</pre>
+              </div>
+
+              <b-button v-if="isSuccess" @click="uploadContent()">Upload photo!</b-button>
+
             </div>
           </div>
-        </div>
-
-        <!--SUCCESS-->
-        <div v-if="isSuccess">
-          <h2>Uploaded {{ uploadedFiles.length }} file(s) successfully.</h2>
-          <p>
-            <a href="javascript:void(0)" @click="reset()">Upload again</a>
-          </p>
-          <ul class="list-unstyled">
-            <li v-for="item in uploadedFiles" v-bind:key="item">
-              <img :src="item.url" class="img-responsive img-thumbnail" :alt="item.originalName">
-            </li>
-          </ul>
-        </div>
-
-        <!--FAILED-->
-        <div v-if="isFailed">
-          <h2>Uploaded failed.</h2>
-          <p>
-            <a href="javascript:void(0)" @click="reset()">Try again</a>
-          </p>
-          <pre>{{ uploadError }}</pre>
         </div>
 
         <div class="col-lg-8">
           <div class="card">
             <div class="card-body">
               <div class="row mb-3">
-                <div class="col-sm-3">
+                <div class="col-sm-3 m-auto">
                   <h6 class="mb-0">Name</h6>
                 </div>
-                <div class="col-sm-9 text-secondary">
+                <div class="col-sm-9 text-secondary m-auto">
                   <input type="text" class="form-control" v-model="product.name">
                 </div>
               </div>
               <div class="row mb-3">
-                <div class="col-sm-3">
+                <div class="col-sm-3 m-auto">
                   <h6 class="mb-0">Price</h6>
                 </div>
-                <div class="col-sm-9 text-secondary">
+                <div class="col-sm-9 text-secondary m-auto">
                   <input type="text" class="form-control" v-model="product.price">
                 </div>
               </div>
               <div class="row mb-3">
-                <div class="col-sm-3">
+                <div class="col-sm-3 m-auto">
                   <h6 class="mb-0">Quantity</h6>
                 </div>
-                <div class="col-sm-9 text-secondary">
+                <div class="col-sm-9 text-secondary m-auto">
                   <input type="text" class="form-control" v-model="product.quantity">
                 </div>
                 <hr>
-                <div class="col-sm-9 text-secondary">
-                  <input type="button" class="btn btn-primary px-4" value="Update info" v-on:click="updateProductInfo">
-                </div>
-                <hr>
-                <div class="col-sm-9 text-secondary">
-                  <input type="button" class="btn btn-primary px-4" value="Delete" v-on:click="this.delete">
+              </div>
+              <div class="row mb-3">
+                <div class="col">
+                  <div class="d-inline-flex justify-content-center">
+                    <div class="text-secondary mx-2">
+                      <input type="button" class="btn btn-primary px-4" value="Update"
+                             v-on:click="updateProductInfo">
+                    </div>
+                    <hr>
+                    <div class="text-secondary mx-2">
+                      <input type="button" class="btn btn-primary px-4" value="Delete" v-on:click="this.delete">
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -97,6 +106,7 @@
 
 <script>
 import {_arrayBufferToBase64} from "@/components/Product/HellperFunctions";
+
 const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
 import {upload} from "@/components/ContentUpload/file-upload.service";
 import {wait} from "@/components/ContentUpload/utils";
@@ -135,7 +145,6 @@ export default {
     },
 
     getPicture(imageName) {
-      console.log(imageName)
       this.$http
           .get(process.env.VUE_APP_BACKEND_URL + 'image/' + imageName, {
             responseType: 'arraybuffer'
@@ -147,7 +156,6 @@ export default {
     },
 
     uploadContent() {
-
       let data = {'id': this.id}
 
       this.formData.append("obj", new Blob([JSON.stringify(data)], {
@@ -157,19 +165,25 @@ export default {
       this.$http
           .post(process.env.VUE_APP_BACKEND_URL + 'product/updatePhoto', this.formData)
           .then(response => {
-            console.log(response.data)
+            alert(response.data)
+            this.getProductInfo()
+            this.reset()
           })
     },
 
     updateProductInfo() {
-
-      let data = {'id':this.product.id, 'name':this.product.name, 'price':this.product.price, 'quantity':this.product.quantity}
+      let data = {
+        'id': this.product.id,
+        'name': this.product.name,
+        'price': this.product.price,
+        'quantity': this.product.quantity
+      }
 
       this.$http
           .post(process.env.VUE_APP_BACKEND_URL + 'product/update', data)
           .then(response => {
             alert(response.data);
-            this.$router.push('/')
+            this.$router.push("/product?id=" + this.id)
           })
     },
 
