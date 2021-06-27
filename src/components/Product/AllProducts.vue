@@ -41,7 +41,7 @@ export default {
   methods: {
     getAllProducts() {
       this.$http
-          .get(process.env.VUE_APP_BACKEND_URL + 'product/all')
+          .get(process.env.VUE_APP_BACKEND_URL + 'product/agent')
           .then(response => {
             this.products = response.data;
           }).catch(err => {

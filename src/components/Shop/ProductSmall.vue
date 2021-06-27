@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       image: null,
-      product: null
+      product: {id: 0, name: '', price: 0}
     }
   },
   mounted() {
