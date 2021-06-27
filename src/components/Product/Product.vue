@@ -70,7 +70,12 @@
                   <h6 class="mb-0">Price</h6>
                 </div>
                 <div class="col-sm-9 text-secondary m-auto">
-                  <input type="text" class="form-control" v-model="product.price">
+                  <div class="input-group">
+                    <input type="text" class="form-control" v-model="product.price">
+                    <div class="input-group-append">
+                      <div class="input-group-text">$</div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row mb-3">

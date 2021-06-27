@@ -15,6 +15,8 @@ import Activation from "@/components/User/Registration/Activation";
 import CreateProduct from "@/components/Product/CreateProduct";
 import AllProducts from "@/components/Product/AllProducts";
 import Product from "@/components/Product/Product";
+import Shop from "@/components/Shop/Shop";
+import ProductDetails from "@/components/Shop/ProductDetails";
 
 Vue.config.productionTip = false
 
@@ -29,7 +31,9 @@ const routes = [{path: '/userRegistration', component: Registration},
     {path: '/activation', component: Activation},
     {path: '/createProduct', component: CreateProduct},
     {path: '/allProducts', component: AllProducts},
-    {path: '/product', component: Product}];
+    {path: '/product', component: Product},
+    {path: '/shop', component: Shop},
+    {path: '/details', component: ProductDetails}];
 
 const router = new VueRouter({
     routes,
