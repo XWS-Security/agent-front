@@ -30,7 +30,7 @@
               </div>
             </div>
             <div class="p-2 m-auto">
-              <button class="btn btn-info">Add item(s) to cart</button>
+              <button class="btn btn-info" v-on:click="onAddToCart">Add item(s) to cart</button>
             </div>
           </div>
         </div>
@@ -49,9 +49,9 @@ export default {
   components: {BIconArrowDownCircle, BIconArrowUpCircle},
   data() {
     return {
-      product: null,
+      product: {id: 0, name: '', price: 0},
       image: null,
-      amount: 0
+      amount: 1
     }
   },
   mounted() {
@@ -81,6 +81,15 @@ export default {
     },
     onAmountDown() {
       if (this.amount > 0) this.amount--;
+    },
+    onAddToCart() {
+      let cart = new Map()
+      let cartJSON = sessionStorage.getItem("cart")
+      if (cartJSON != null) cart = JSON.parse(cartJSON)
+
+      cart[this.product.id] = this.amount
+      sessionStorage.setItem("cart", JSON.stringify(cart))
+      console.log(sessionStorage.getItem("cart"))
     }
   }
 }

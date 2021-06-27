@@ -8,8 +8,10 @@
         <CreateProductLink v-if="user == 'Agent'"></CreateProductLink>
         <AllProductsLink v-if="user == 'Agent'"></AllProductsLink>
       </NavGroup>
+      <NavGroup side="ml-auto">
+        <CartLink></CartLink>
+      </NavGroup>
     </NavBar>
-    <h3>{{ user }}</h3>
     <router-view></router-view>
   </div>
 </template>
@@ -23,10 +25,12 @@ import LoginLink from "@/components/NavBar/LoginLink";
 import LogOutLink from "@/components/NavBar/LogOutLink";
 import CreateProductLink from "@/components/NavBar/CreateProductLink";
 import AllProductsLink from "@/components/NavBar/AllProductsLink";
+import CartLink from "@/components/NavBar/CartLink";
 
 export default {
   name: 'App',
   components: {
+    CartLink,
     AllProductsLink,
     CreateProductLink,
     LogOutLink,

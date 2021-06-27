@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
         accessToken: null,
         expiresIn: null,
         userType: null,
-        canChange: true
+        canChange: true,
+        cart: new Map()
     },
     getters: {
         tokenString: state => {
@@ -20,8 +21,9 @@ export const store = new Vuex.Store({
                 return "Bearer " + state.accessToken;
             }
         },
-
-
+        shoppingCart: state => {
+            return state.cart
+        }
     },
     mutations: {
         setData: (state) => {
@@ -39,8 +41,6 @@ export const store = new Vuex.Store({
             state.expiresIn = null;
             state.canChange = true;
         },
-
-
     },
     actions: {
         pushDataFromSession: ({commit, state}) => {
