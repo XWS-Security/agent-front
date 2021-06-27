@@ -22,7 +22,12 @@
 
         <div class="form-group m-5">
           <label for="priceInput">Price</label>
-          <input type="text" class="form-control" id="priceInput" placeholder="Enter price" v-model="price">
+          <div class="input-group">
+            <input type="text" class="form-control" id="priceInput" placeholder="Enter price" v-model="price">
+            <div class="input-group-append">
+              <div class="input-group-text">$</div>
+            </div>
+          </div>
         </div>
 
         <div class="form-group m-5">
