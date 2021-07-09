@@ -8,6 +8,7 @@
         <CreateProductLink v-if="user == 'Agent'"></CreateProductLink>
         <AllProductsLink v-if="user == 'Agent'"></AllProductsLink>
         <OrdersLink v-if="user == 'Agent'"></OrdersLink>
+        <GenerateReportLink v-if="user == 'Agent'"></GenerateReportLink>
       </NavGroup>
       <NavGroup side="ml-auto">
         <CartLink></CartLink>
@@ -28,10 +29,12 @@ import CreateProductLink from "@/components/NavBar/CreateProductLink";
 import AllProductsLink from "@/components/NavBar/AllProductsLink";
 import CartLink from "@/components/NavBar/CartLink";
 import OrdersLink from "@/components/NavBar/OrdersLink";
+import GenerateReportLink from "@/components/NavBar/GenerateReportLink";
 
 export default {
   name: 'App',
   components: {
+    GenerateReportLink,
     OrdersLink,
     CartLink,
     AllProductsLink,
