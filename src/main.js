@@ -20,6 +20,7 @@ import ProductDetails from "@/components/Shop/ProductDetails";
 import Cart from "@/components/Cart/Cart";
 import Orders from "@/components/Order/Orders";
 import GenerateCampaignReport from "@/components/Campaign/GenerateCampaignReport";
+import Reports from "@/components/Report/Reports";
 
 Vue.config.productionTip = false
 
@@ -39,7 +40,8 @@ const routes = [{path: '/userRegistration', component: Registration},
     {path: '/details', component: ProductDetails},
     {path: '/cart', component: Cart},
     {path: '/orders', component: Orders},
-    {path: '/report', component: GenerateCampaignReport}];
+    {path: '/report', component: GenerateCampaignReport},
+    {path: '/reports', component: Reports}];
 
 const router = new VueRouter({
     routes,
